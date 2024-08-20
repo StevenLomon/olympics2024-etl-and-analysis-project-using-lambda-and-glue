@@ -3,3 +3,6 @@ Instead of getting data from the Spotify API, I will be getting data from the Pa
 
 I started by authorizing and getting my hands on the data from the API
 While waiting for the request access, I started setting up an IAM User that will be used during the project. Since the services that will be used are S3, AWS Glue (with AWS GlueCrawler), Amazon CloudWatch, AWS Lambda and Amazon Athena, this user will have full access to all of these services and these services only as per the Principle of Least Privilege. The user will both have console access (with MFA) and programmatic access via the CLI and the user will also be disabled by the end of the project to minimuze security risks. 
+When applying policies, I stumbled upon the two types of CloudWatch for the first time: AWS CloudWatchEvidently and AWS CloudWatchRUM (Real User Monitoring). CloudWatchEvidently is moreso used for A/B testing and feature flag management and so for this project CloudWatchRUM will instead be used. This is also more in line with what I learned when studying for the Cloud Practitioner Exam haha
+My own personal note: to access the AWS CLI, it's not awscli or aws-cli, it's aws configure
+Since all of the services that will be used throughout the project are avaialble in the Stockholm (eu-north-1) region and it's the closest one I'm located to, this is the one that will be used.
