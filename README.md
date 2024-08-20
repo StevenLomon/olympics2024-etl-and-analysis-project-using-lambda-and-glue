@@ -1,2 +1,5 @@
 This is a Data Engineering project that models the Spotify API project mentioned in this video: https://www.youtube.com/watch?v=X8Fin2zMKK4 by Darshil Parmar: https://www.linkedin.com/in/darshil-parmar/
 Instead of getting data from the Spotify API, I will be getting data from the Paris Olympics 2024 API: https://data.paris2024.org/api/explore/v2.1/console
+
+I started by authorizing and getting my hands on the data from the API
+While waiting for the request access, I started setting up an IAM User that will be used during the project. Since the services that will be used are S3, AWS Glue (with AWS GlueCrawler), Amazon CloudWatch, AWS Lambda and Amazon Athena, this user will have full access to all of these services and these services only as per the Principle of Least Privilege. The user will both have console access (with MFA) and programmatic access via the CLI and the user will also be disabled by the end of the project to minimuze security risks. 
