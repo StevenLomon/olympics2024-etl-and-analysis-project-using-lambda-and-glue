@@ -1,5 +1,11 @@
 env/
 
+# Data from https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games?resource=download
+# This was used as I was waiting for the real API data
+data/
+
 # Terraform files
 .terraform/
 .terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
