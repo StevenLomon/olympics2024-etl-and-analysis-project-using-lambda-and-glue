@@ -13,6 +13,10 @@ I then created the provider.tf file. This is my first time working with Terrafor
 With our terraform version block and aws provider block with the region we want to use in provider.tf written, we can run terraform init in our terminal (with Terraform also installed which I did earlier following this: https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) to initalize our Terraform back-end. We are displayed with "Terraform has been successfully initialized!"  
 Both the .terraform directory and the .terraform.lock.hcl file are both added to .gitignore since they're both automatically generated and managed by Terraform.  
 
-main.tf and variables.tf were created to handle the provisioning of AWS resources. I starting by creating an S3 Bucket  
+main.tf and variables.tf were created to handle the provisioning of AWS resources. I starting by creating an S3 Bucket for the Data Lake.   
 I'm also making sure to use the variable name in variables.tf rather than writing them in main.tf. Single source of truth.
+
+I decided, since I am pressed for time for job interview deadlines, to finish this project without Terraform and "re-do" it with Terraform in retrospect
+
+So next up is setting up boto3 and creating an S3 object
 
