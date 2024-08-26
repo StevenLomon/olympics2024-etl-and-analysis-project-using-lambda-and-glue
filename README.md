@@ -26,7 +26,7 @@ Since RapidAPI uses an API key, I set up dotenv and included it in .gitignore
 
 At this point I set up the Lambda function to extract the data. This is my first time writing a Lambda function and it will also be my first time using AWS CloudWatch. As I was setting up the Lambda funciton I got this error:  
 User: arn:aws:iam::058264546342:user/olympics-user1 is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::058264546342:role/service-role/OlympicsDataExtraction-role-gxqt7ypj because no identity-based policy allows the iam:CreateRole action  
-The workaround was to create a custom policy so that no more control than needed was added. Only creating an attaching roles (and others needed to make those work) was needed and so a new policy was created using the following JSON and attached to the IAM User:  
+The workaround was to create a custom policy (that I decided to call IAMLambdaPermission) so that no more control than needed was added. Only creating an attaching roles (and others needed to make those work) was needed and so a new policy was created using the following JSON and attached to the IAM User:  
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -62,6 +62,7 @@ However, I was quickly faced with another error displaying that the IAM user nee
     ]
 }
 With this, I was able to create the Lambda function!  
+It took some getting used to the Lambda function editor and finding where to set environment variables (that are loaded with os.environ) but once the Lambda function was written, I needed to attach two policies to the role that was created when the Lambda function was created: AmazonS3FullAccess for S3 access and CloudWatchLogsFullAccess for CloudWatch logs access. And this brought attention to the fact that the current IAM user can't list policies and therefore the following line was added to the IAMLambdaPermission policy: "iam:ListPolicies"  
 
 
 

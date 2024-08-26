@@ -12,7 +12,7 @@ s3 = boto3.client('s3')
 
 # Set the directory and S3 bucket name
 local_directory = 'data'
-bucket_name = "olympics2024-bucket-steven"
+bucket_name = "olympics2024-bucket-raw"
 
 # Set up API strings
 url = "https://olympic-sports-api.p.rapidapi.com/athletes"
