@@ -7,7 +7,7 @@ s3 = boto3.client('s3')
 
 # Set the directory and S3 bucket name
 local_directory = 'data'
-bucket_name = "olympics2024-terraform-bucket-steven"
+bucket_name = "olympics2024-bucket-steven"
 
 # Loop through all files in the data directory. os.walk yields a 3-tuple; (dirpath, dirnames, filenames)
 for root, dirs, files in os.walk(local_directory):

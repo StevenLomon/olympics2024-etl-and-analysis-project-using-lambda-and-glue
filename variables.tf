@@ -1,4 +1,4 @@
 variable "bucketname" {
-    default = "olympics2024-terraform-bucket-steven"
+    default = "olympics2024-bucket-steven"
 }
 
