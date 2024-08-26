@@ -63,6 +63,6 @@ However, I was quickly faced with another error displaying that the IAM user nee
 }
 With this, I was able to create the Lambda function!  
 It took some getting used to the Lambda function editor and finding where to set environment variables (that are loaded with os.environ) but once the Lambda function was written, I needed to attach two policies to the role that was created when the Lambda function was created: AmazonS3FullAccess for S3 access and CloudWatchLogsFullAccess for CloudWatch logs access. And this brought attention to the fact that the current IAM user can't list policies and therefore the following line was added to the IAMLambdaPermission policy: "iam:ListPolicies"  
-
-
+With our Lambda function having full access to S3 and CloudWatch, I then proceeded to test the funciton. This was done by creating a test event to invoke the function. When testing, I ran into the problem of Lambda not recognizing the 'requests' module. This was resolved by creating a deployment package: a directory with the newly written lambda code and the 'requests' library. A file named lambda_function.py was created and requests was pip installed. Everything was then zipped using the following bash command (this was completely new to me):
+zip -r ../my_lambda_function.zip .  
 
