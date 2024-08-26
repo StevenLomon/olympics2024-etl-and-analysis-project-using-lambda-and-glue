@@ -18,5 +18,6 @@ I'm also making sure to use the variable name in variables.tf rather than writin
 
 I decided, since I am pressed for time for job interview deadlines, to finish this project without Terraform and "re-do" it with Terraform in retrospect
 
-So next up is setting up boto3 and creating an S3 object
+So next up is setting up boto3 and creating an S3 object  
+Since I still didn't have access to the official API data, I downloaded some Olympics data from Kaggle. All of this data was store in a directory called 'data' in the main directory and was uploaded to S3 via os operations. New for me was os.walk and os.path.relpath
 
