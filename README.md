@@ -22,8 +22,46 @@ So next up is setting up boto3 and creating an S3 object
 Since I still didn't have access to the official API data, I downloaded some Olympics data from Kaggle. All of this data was store in a directory called 'data' in the main directory and was uploaded to S3 via os operations. New for me was os.walk and os.path.relpath  
 
 I decided to switch my approach once again since I remembered that RapidAPI is a thing! So rather than getting official data from the official API, for now I will be getting my data from this unofficial API: https://rapidapi.com/belchiorarkad-FqvHs2EDOtP/api/olympic-sports-api  
-Since RapidAPI uses an API key, I set up dotenv and included it in .gitignore
+Since RapidAPI uses an API key, I set up dotenv and included it in .gitignore  
 
+At this point I set up the Lambda function to extract the data. This is my first time writing a Lambda function and it will also be my first time using AWS CloudWatch. As I was setting up the Lambda funciton I got this error:  
+User: arn:aws:iam::058264546342:user/olympics-user1 is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::058264546342:role/service-role/OlympicsDataExtraction-role-gxqt7ypj because no identity-based policy allows the iam:CreateRole action  
+The workaround was to create a custom policy so that no more control than needed was added. Only creating an attaching roles (and others needed to make those work) was needed and so a new policy was created using the following JSON and attached to the IAM User:  
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:AttachRolePolicy",
+                "iam:PassRole",
+                "iam:PutRolePolicy",
+                "iam:GetRole"
+            ],
+            "Resource": "arn:aws:iam::058264546342:role/*"
+        }
+    ]
+}
+However, I was quickly faced with another error displaying that the IAM user needs to be able to create policies as well so the JSON was slightly modified to include this as well:  
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:AttachRolePolicy",
+                "iam:PassRole",
+                "iam:PutRolePolicy",
+                "iam:GetRole",
+                "iam:CreatePolicy"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+With this, I was able to create the Lambda function!  
 
 
 
