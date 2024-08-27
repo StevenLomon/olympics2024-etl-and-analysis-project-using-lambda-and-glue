@@ -81,4 +81,8 @@ The -r flag means that we're zipping everything recursively and the 9 sets the c
 zip -g lambda_function_transform.zip lambda_function_transform.py  
 This is what I tried to do. But it simply did not want to work. So I found a way to use AWS Data Wrangler without using a pandas DataFrame! It made everything so much incredibly easier haha, and the code became SO MUCH SIMPLER. But... there was still an error saying that Lambda doesn't recognize the AWS Data Wrangler module. So I switched over to Glue!  
 
+In order to get started with Glue I first had to swithc to my root user in order to give the IAM user created for the project access to Glue. I started by creating a database for the olympics data. I then created the crawler that will index our S3 data to infer the schema. After that I created the ETL job.  
+
+
+
 We were not able to extract high quality data from the official API and not able to do any interesting visualizations in Amazon QuickSight but this project has given valuable experience and insight nevertheless! The pipeline can be fully automated with CloudWatch to trigger daily
