@@ -82,7 +82,15 @@ zip -g lambda_function_transform.zip lambda_function_transform.py
 This is what I tried to do. But it simply did not want to work. So I found a way to use AWS Data Wrangler without using a pandas DataFrame! It made everything so much incredibly easier haha, and the code became SO MUCH SIMPLER. But... there was still an error saying that Lambda doesn't recognize the AWS Data Wrangler module. So I switched over to Glue!  
 
 In order to get started with Glue I first had to swithc to my root user in order to give the IAM user created for the project access to Glue. I started by creating a database for the olympics data. I then created the crawler that will index our S3 data to infer the schema. After that I created the ETL job.  
+Writing the ETL job script (which uses Spark) was by far the most annoying part of the project so far. I got error after error after error and I kept having ChatGPT re-writing the script over and over and wasn't really learning anything. One thing from my side was realizing after a few re-writes that I only had attached S3 read permission to the current IAM user and not write access which definitely interfered from my side.  
+After the job finally succeeded, I had GPT summarize the most important key changes:  
+1. Error: INVALID_ARGUMENT_ERROR; AttributeError: 'DynamicFrame' object has no attribute 'explode'
+Issue: The initial approach tried to use the explode function directly on a DynamicFrame, which doesn’t support this method.
+Solution: Converted the DynamicFrame to a Spark DataFrame using .toDF() before applying the explode function. This allowed us to work with the nested JSON structure effectively.
+2. Error: UNCLASSIFIED_ERROR; com.amazonaws.services.glue.types.ArrayNode cannot be cast to com.amazonaws.services.glue.types.ObjectNode
+Issue: This error occurred when attempting to relationalize or transform a nested array incorrectly in the DynamicFrame.
+Solution: Rather than trying to relationalize complex structures directly, we focused on manipulating the DataFrame (which is more flexible) by selecting and transforming only the required fields (id, name, country, sport) after exploding the athletes array.  
 
-
+To automatically trigger the ETL process whenever a new object is uploaded to the raw data S3 bucket, I now had to set up an S3 Object Created Event in combination with an AWS Lambda function that invokes the Glue ETL job. So I had to use a Data Transformation Lambda function anyway haha
 
 We were not able to extract high quality data from the official API and not able to do any interesting visualizations in Amazon QuickSight but this project has given valuable experience and insight nevertheless! The pipeline can be fully automated with CloudWatch to trigger daily
