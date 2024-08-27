@@ -73,6 +73,6 @@ id, name, country, sport
 Gender is not available in the data which is pretty sad. These are the only four keys and sport is missing for quite a few. This is not a very extensive dataset given from the API but it's all about the experience working with the services so let's move forward  
 
 For the data transformation, my first instinct is to use pandas but since we're working in an AWS environment, I decided to try AWS Data Wrangler for the first time. A new Lambda function called OlympicsDataTransformation was created as well as a new S3 Bucket called olympics-data-transformed  
-The Lambda file was written
+The Lambda file was written and for the testing of the function to go through, we once again had to increase the timeout from 3 seconds to 10 seconds just to find out that Lambda doesn't know what 'pandas' is haha. So once again, we also had to create a Deployment Package with pandas pip installed, zip it and import it into Lambda.
 
 We were not able to extract high quality data from the official API and not able to do any interesting visualizations in Amazon QuickSight but this project has given valuable experience and insight nevertheless! The pipeline can be fully automated with CloudWatch to trigger daily
