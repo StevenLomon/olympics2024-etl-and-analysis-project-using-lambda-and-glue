@@ -1,6 +1,6 @@
 This is a Data Engineering project that models the Spotify API project mentioned in this video: https://www.youtube.com/watch?v=X8Fin2zMKK4 by Darshil Parmar: https://www.linkedin.com/in/darshil-parmar/
 Instead of getting data from the Spotify API, I will be getting data from the Paris Olympics 2024 API: https://data.paris2024.org/api/explore/v2.1/console
-The AWS Services that will be used are S3, AWS Glue (with AWS GlueCrawler), Amazon CloudWatch, AWS Lambda and Amazon Athena.
+The AWS Services that will be used are S3, AWS Glue (with AWS GlueCrawler), Amazon CloudWatch, AWS Lambda and Amazon Athena. The AWS Data Wrangler library will be used over pandas for the data transformation since we're working with AWS services.
 Terraform will be used to automate and manage the provisioning of AWS resources involved in the data pipeline.
 
 I started by authorizing and getting my hands on the data from the API  
@@ -66,4 +66,13 @@ It took some getting used to the Lambda function editor and finding where to set
 With our Lambda function having full access to S3 and CloudWatch, I then proceeded to test the funciton. This was done by creating a test event to invoke the function. When testing, I ran into the problem of Lambda not recognizing the 'requests' module. This was resolved by creating a deployment package: a directory with the newly written lambda code and the 'requests' library. A file named lambda_function.py was created and requests was pip installed. Everything was then zipped using the following bash command (this was completely new to me):
 zip -r ../my_lambda_function.zip .  
 The zip file was uploaded and overwrote the current code. Another thing that prevented me from testing was the handle. Since the Python file was named my_lambda_function.py, I had to change the handle in Runtime settings from lambda_function.lambda_handler to my_lambda_function.lambda_handler. In the future, I will have my file names simply be called lambda_function.py  
-Another problem was timeout. The task timed out after 3 seconds and so the timeout setting was increased to 10 seconds instead. And with that, I was able to run my first succesful Lambda function (test)! To confirm, the json data is indeed in the S3 bucket for raw data
+Another problem was timeout. The task timed out after 3 seconds and so the timeout setting was increased to 10 seconds instead. And with that, I was able to run my first succesful Lambda function (test)! To confirm, the json data is indeed in the S3 bucket for raw data  
+
+The next step is to write the Lambda function that will transform the data. After previewing the JSON data in S3 I decided to start with just creating the athletes table with the following columns:  
+id, name, country, sport  
+Gender is not available in the data which is pretty sad. These are the only four keys and sport is missing for quite a few. This is not a very extensive dataset given from the API but it's all about the experience working with the services so let's move forward  
+
+For the data transformation, my first instinct is to use pandas but since we're working in an AWS environment, I decided to try AWS Data Wrangler for the first time. A new Lambda function called OlympicsDataTransformation was created as well as a new S3 Bucket called olympics-data-transformed  
+The Lambda file was written
+
+We were not able to extract high quality data from the official API and not able to do any interesting visualizations in Amazon QuickSight but this project has given valuable experience and insight nevertheless! The pipeline can be fully automated with CloudWatch to trigger daily
