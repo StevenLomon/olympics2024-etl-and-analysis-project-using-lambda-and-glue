@@ -14,7 +14,6 @@ pandas==2.2.2
 pyasn1==0.6.0
 Pygments==2.18.0
 python-dateutil==2.9.0.post0
-python-dotenv==1.0.1
 pytz==2024.1
 PyYAML==6.0.2
 requests==2.32.3

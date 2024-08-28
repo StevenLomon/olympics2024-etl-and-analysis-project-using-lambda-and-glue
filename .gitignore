@@ -1,5 +1,4 @@
 env/
-.env
 
 # Terraform files
 .terraform/
@@ -12,3 +11,6 @@ my_lambda_function/*
 
 # Allow .py files in the my_lambda_function directory
 !my_lambda_function/*.py
+
+# dotenv ended up not being used
+.env
