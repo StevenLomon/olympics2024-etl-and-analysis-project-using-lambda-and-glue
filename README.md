@@ -3,11 +3,10 @@ Instead of getting data from the Spotify API, I will be getting data from the Pa
 The AWS Services that will be used are S3, AWS Glue (with AWS GlueCrawler), Amazon CloudWatch, AWS Lambda, DynamoDB and Amazon Athena. The AWS Data Wrangler library will be used over pandas for the data transformation since we're working with AWS services.
 Terraform will be used to automate and manage the provisioning of AWS resources involved in the data pipeline.
 
-I started by authorizing and getting my hands on the data from the API  
-While waiting for the request access, I started setting up an IAM User that will be used during the project. This user will only have full access to all of the services that are used in the project and these services only as per the Principle of Least Privilege. The user will both have console access (with MFA) and programmatic access via the CLI and the user will also be disabled by the end of the project to minimuze security risks.  
-When applying policies, I stumbled upon the two types of CloudWatch for the first time: AWS CloudWatchEvidently and AWS CloudWatchRUM (Real User Monitoring). CloudWatchEvidently is moreso used for A/B testing and feature flag management and so for this project CloudWatchRUM will instead be used. This is also more in line with what I learned when studying for the Cloud Practitioner Exam haha  
-My own personal note: to access the AWS CLI, it's not awscli or aws-cli, it's aws configure
-Since all of the services that will be used throughout the project are avaialble in the Stockholm (eu-north-1) region and it's the closest one I'm located to, this is the one that will be used.  
+To start the project, data from the API was asked for access by atuhorizing on the official website.   
+While waiting for the request access, an IAM User was being set up that will be used during the project. This user will only have full access to all of the services that are used in the project and these services only as per the Principle of Least Privilege. The user will both have console access (with MFA) and programmatic access via the CLI and the user will also be disabled by the end of the project to minimuze security risks.  
+(When applying policies, I stumbled upon the two types of CloudWatch for the first time: AWS CloudWatchEvidently and AWS CloudWatchRUM (Real User Monitoring). CloudWatchEvidently is moreso used for A/B testing and feature flag management and so for this project CloudWatchRUM will instead be used. This is also more in line with what I learned when studying for the Cloud Practitioner Exam haha)  
+Since all of the services that will be used throughout the project are avaialble in the Stockholm (eu-north-1) region and it's the closest one location-wise, this is the one that will be used.  
 
 I then created the provider.tf file. This is my first time working with Terraform so everything is new but exciting and I'm focusing on failing forward! The official Terraform documentation has a super handy button that says "Use this Provider" that allows us to quickly set up our provider: https://registry.terraform.io/providers/hashicorp/aws/latest/docs  
 With our terraform version block and aws provider block with the region we want to use in provider.tf written, we can run terraform init in our terminal (with Terraform also installed which I did earlier following this: https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) to initalize our Terraform back-end. We are displayed with "Terraform has been successfully initialized!"  
@@ -98,4 +97,22 @@ The workflow was confirmed to be working by manually starting the Lambda functio
 What caught my attention now is that I manually update the page variable in the Lambda function for data extraction every time I run the Lambda function. I decided to automate this as well using a DynamoDB table to store the current page number!  
 A new DynamoDB table was created called OlympicsAPIState and 'id' was set as primary key with a String type. As the initial record, an item was added with id = "currentPage" and page = 4 (since I had done 3 API calls with pages 1, 2 and 3). And with the DynamoDB table created, the data extraction Lambda funciton was modified to fetch the page number from DynamoDB. With all this I also had to add a policy for full access to DynamoDB to the IAM user from my root user, as well as the role associated with the Lambda function  
 
-We were not able to extract high quality data from the official API and not able to do any interesting visualizations in Amazon QuickSight but this project has given valuable hands-on experience and insight nevertheless! The pipeline can be fully automated with CloudWatch to trigger daily
+The only thing left now is running some Athena SQL queries to examine the dataset. I will connect it to QuickSight as well just to get some hands-on experience with the service  
+Athena was not as simple as point it to the transformed data S3 bucket and run some queries haha. I had to first create a Glue crawler to infer the schema from the transformed data bucket. Getting the crawler to create a table became a bit of a hassle but allowing the IAM user to see CloudWatch logs pointed out the error that the crawler doesn't have permission to upload S3 objects and after a little bit more digging I found the real source of the problem: The IAM Role I created for the previous crawler (that I also assigned to this crawler) only gave permission to Get and Put objects in the raw data bucket haha. So the transformed data bucket was added as a resource as well. Running the crawler *now* automatically created the desired table.  
+
+Running this simple query in Athena:  
+SELECT * 
+FROM "AwsDataCatalog"."olympics_data"."olympics2024_bucket_transformed" 
+WHERE sport = 'Skateboarding'
+LIMIT 10;
+gave this result:
+#	id	name	country	sport
+1	71458	Augusto Akio	BRA	Skateboarding
+2	71458	Augusto Akio	BRA	Skateboarding
+3	71458	Augusto Akio	BRA	Skateboarding
+
+Number one, this pointed out how rather lackluster the dataset is at the time of querying, and 2. there are evidently duplicates in the data. So the dataset is not something to brag about at all but hands-on experience on how to take data from an API all the way to Athena, fully automated, has been gained!  
+
+In QuickSight, 
+
+We were not able to extract high quality data from the official API and not able to do any interesting visualizations in Amazon QuickSight but this project has given valuable hands-on experience and insight nevertheless! The pipeline can be fully automated with CloudWatch to trigger daily  
