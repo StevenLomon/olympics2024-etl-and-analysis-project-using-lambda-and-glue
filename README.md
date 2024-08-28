@@ -98,7 +98,7 @@ SELECT *
 FROM "AwsDataCatalog"."olympics_data"."olympics2024_bucket_transformed" 
 WHERE sport = 'Skateboarding'
 LIMIT 10;
-gave this result:
+gave this result:  
 	id	name	country	sport
 1	71458	Augusto Akio	BRA	Skateboarding
 2	71458	Augusto Akio	BRA	Skateboarding
