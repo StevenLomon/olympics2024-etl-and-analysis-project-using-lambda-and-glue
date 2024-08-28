@@ -99,10 +99,10 @@ FROM "AwsDataCatalog"."olympics_data"."olympics2024_bucket_transformed"
 WHERE sport = 'Skateboarding'
 LIMIT 10;
 gave this result:  
-	id	name	country	sport
-1	71458	Augusto Akio	BRA	Skateboarding
-2	71458	Augusto Akio	BRA	Skateboarding
-3	71458	Augusto Akio	BRA	Skateboarding
+	id	name	country	sport  
+1	71458	Augusto Akio	BRA	Skateboarding  
+2	71458	Augusto Akio	BRA	Skateboarding  
+3	71458	Augusto Akio	BRA	Skateboarding  
 
 Number one, this pointed out how rather lackluster the dataset is at the time of querying, and 2. there are evidently duplicates in the data. So the dataset is not something to brag about at all but hands-on experience on how to take data from an API all the way to Athena, fully automated, has been gained!  
 
