@@ -94,11 +94,19 @@ The only thing left at this point was running some Athena SQL queries to examine
 First, a Glue crawler to infer the schema from the transformed data bucket had to be created. Getting the crawler to create a table became a bit of a hassle but allowing the IAM user to see CloudWatch logs pointed out the error that the crawler doesn't have permission to upload S3 objects and after a little bit more digging, the real source of the problem was found: The IAM Role previously created for the previous crawler (that I also assigned to this crawler) only gave permission to Get and Put objects in the raw data bucket haha. So the transformed data bucket was added as a resource as well. Running the crawler *now* automatically created the desired table.    
 
 Running this simple query in Athena:  
+```
 SELECT * 
 FROM "AwsDataCatalog"."olympics_data"."olympics2024_bucket_transformed" 
 WHERE sport = 'Skateboarding'
 LIMIT 10;
+````
 gave this result:  
+|  id   |     name     | country |     sport     |
+| ----- | ------------ | ------- | ------------- |
+| 71458 | Augusto Akio |   BRA   | Skateboarding |
+| 71458 | Augusto Akio |   BRA   | Skateboarding |
+| 71458 | Augusto Akio |   BRA   | Skateboarding |
+
 	id	name	country	sport  
 1	71458	Augusto Akio	BRA	Skateboarding  
 2	71458	Augusto Akio	BRA	Skateboarding  
