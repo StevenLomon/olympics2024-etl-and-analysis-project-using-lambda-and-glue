@@ -1,8 +1,14 @@
-This is a Data Engineering project that models the Spotify API project mentioned in this video: https://www.youtube.com/watch?v=X8Fin2zMKK4 by Darshil Parmar: https://www.linkedin.com/in/darshil-parmar/
-Instead of getting data from the Spotify API, the data will be from the Paris Olympics 2024 API: https://data.paris2024.org/api/explore/v2.1/console
-(however, since there's been 5 days with no access to the API Data, RapidAPI was used instead: https://rapidapi.com/belchiorarkad-FqvHs2EDOtP/api/olympic-sports-api)
-The AWS Services that will be used are S3, Lambda, AWS Glue, DynamoDB and Athena. The AWS Data Wrangler library will be used over pandas for the data transformation since we're working with AWS services. The pipeline can be fully automated to trigger daily with Amazon CloudWatch EventBridge and the provisioning of the resources can be automated with Terraform (not implemented in this first version of the project)
+# Olympics 2024 ETL and Analysis using Lambda and Glue
 
+## Description
+This is a Data Engineering project that models the Spotify API project mentioned in this video: https://www.youtube.com/watch?v=X8Fin2zMKK4 by Darshil Parmar: https://www.linkedin.com/in/darshil-parmar/  
+Instead of getting data from the Spotify API, the data will be from the Paris Olympics 2024 API: https://data.paris2024.org/api/explore/v2.1/console  
+(however, since there's been 5 days with no access to the API Data, RapidAPI was used instead: https://rapidapi.com/belchiorarkad-FqvHs2EDOtP/api/olympic-sports-api)  
+The AWS Services that will be used are S3, Lambda, AWS Glue, DynamoDB and Athena. The AWS Data Wrangler library will be used over pandas for the data transformation since we're working with AWS services. The pipeline can be fully automated to trigger daily with Amazon CloudWatch EventBridge and the provisioning of the resources can be automated with Terraform (not implemented in this first version of the project)  
+
+## Journal
+
+### API data access
 To start the project, data from the API was asked for access by atuhorizing on the official website.   
 While waiting for the request access, an IAM User was being set up that will be used during the project. This user will only have full access to all of the services that are used in the project and these services only as per the Principle of Least Privilege. The user will both have console access (with MFA) and programmatic access via the CLI and the user will also be disabled by the end of the project to minimuze security risks.  
 (When applying policies, I stumbled upon the two types of CloudWatch for the first time: AWS CloudWatchEvidently and AWS CloudWatchRUM (Real User Monitoring). CloudWatchEvidently is moreso used for A/B testing and feature flag management and so for this project CloudWatchRUM will instead be used. This is also more in line with what I learned when studying for the Cloud Practitioner Exam haha)  
@@ -106,11 +112,6 @@ gave this result:
 | 71458 | Augusto Akio |   BRA   | Skateboarding |
 | 71458 | Augusto Akio |   BRA   | Skateboarding |
 | 71458 | Augusto Akio |   BRA   | Skateboarding |
-
-	id	name	country	sport  
-1	71458	Augusto Akio	BRA	Skateboarding  
-2	71458	Augusto Akio	BRA	Skateboarding  
-3	71458	Augusto Akio	BRA	Skateboarding  
 
 Number one, this pointed out how rather lackluster the dataset is at the time of querying, and 2. there are evidently duplicates in the data. So the dataset is not something to brag about at all but hands-on experience on how to take data from an API all the way to Athena, fully automated, has been gained!  
 
