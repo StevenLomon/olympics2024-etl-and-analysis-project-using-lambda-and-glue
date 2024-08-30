@@ -10,7 +10,7 @@ Instead of getting data from the Spotify API like in the video, the data will be
 
 The AWS Services that will be used are S3, Lambda, AWS Glue, DynamoDB and Athena. The AWS Data Wrangler library will be used over pandas for the data transformation since we're working with AWS services. The pipeline can be fully automated to trigger daily with Amazon CloudWatch EventBridge and the provisioning of the resources can be automated with Terraform (not implemented in this first version of the project)  
 
-## Journal
+## Project Journal
 
 ### API data access
 To start the project, data from the API was asked for access by atuhorizing on the official website.   
@@ -77,9 +77,9 @@ Gender is not available in the data which is pretty sad. These are the only four
 A new Lambda function called OlympicsDataTransformation was created as well as a new S3 Bucket called olympics-data-transformed. The Lambda file was written and for the testing of the function to go through, the timeout once again had to be incresed from 3 seconds to 10 seconds just to find out that Lambda doesn't know what 'pandas' is haha. So once again, a deployment package also had to be created with pandas pip installed. It was zipped and imported into Lambda, just like the 'requests' module deployment package for the lambda_function_extract.  
 
 The difference here is that the directory is a lot bigger with slightly more complex structure that confused the Lambda interpreter the first time. Therefore, a different bash command when zipping:
-zip -r9 ../lambda_function_transform.zip .
+`zip -r9 ../lambda_function_transform.zip .`
 The -r flag means that everything is zipped recursively and the 9 sets the compression level to the highest level (9), which means the zip file will be as small as possible, though it may take a bit longer to create. The python file was then added to the zip file using:  
-zip -g lambda_function_transform.zip lambda_function_transform.py  
+`zip -g lambda_function_transform.zip lambda_function_transform.py  `
 (This is what I tried to do. But it simply did not want to work. So I found a way to use AWS Data Wrangler without using a pandas DataFrame! It made everything so much incredibly easier haha, and the code became SO MUCH SIMPLER. But... there was still an error saying that Lambda doesn't recognize the AWS Data Wrangler module. So I switched over to Glue!)  
 ** The following ended up not being used **   
 
