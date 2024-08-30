@@ -22,7 +22,7 @@ Since all of the services that will be used throughout the project are avaialble
 
 ## Setting up the data extraction Lambda function
 At this point I set up the Lambda function to extract the data. (This is my first time writing a Lambda function and as with doing anything for the first time; everything is new but exciting and I'm focusing on failing forward!) When setting up the Lambda fucntion, the following error was encountered:
-`User: arn:aws:iam::058264546342:user/olympics-user1 is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::058264546342:role/service-role/OlympicsDataExtraction-role-gxqt7ypj because no identity-based policy allows the iam:CreateRole action  `
+`User: arn:aws:iam::058264546342:user/olympics-user1 is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::058264546342:role/service-role/OlympicsDataExtraction-role-gxqt7ypj because no identity-based policy allows the iam:CreateRole action`  
 The workaround was to create a custom policy so that no more control than needed was added. Only creating an attaching roles (and others needed to make those work) was needed and so a new policy was created using the following JSON and attached to the IAM User: 
 ``` 
 {
@@ -67,7 +67,7 @@ With this, the Lambda function was able to be created!
 It took some getting used to the Lambda function editor and finding where to set environment variables (that are loaded with os.environ) but once the Lambda function was written, two policies needed to be attached to the role that was created when the Lambda function was created: AmazonS3FullAccess for S3 access and CloudWatchLogsFullAccess for CloudWatch logs access. And this brought attention to the fact that the current IAM user can't list policies and therefore the following line was added to the IAMLambdaPermission policy: "iam:ListPolicies"  
 
 With the  Lambda function having full access to S3 and CloudWatch, funciton was tested. This was done by creating a test event to invoke the function. When testing, another problem surfaced: Lambda not recognizing the 'requests' module. This was resolved by creating a deployment package: a directory with the newly written lambda code and the 'requests' library. A file named lambda_function.py was created and requests was pip installed. When pip installing, it was important to use the following flag in the bash command (this was completely new to me):
-`pip install requests -t .`
+`pip install requests -t .`  
 The '-t .' was important to include all files associated with the module in the directory.  
 Everything was then zipped using the following bash command (this was also completely new to me):
 `zip -r ../my_lambda_function.zip .`  
