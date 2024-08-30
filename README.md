@@ -3,7 +3,7 @@
 ## Description
 This is a Data Engineering project that models the Spotify API project mentioned in this video: https://www.youtube.com/watch?v=X8Fin2zMKK4 by Darshil Parmar: https://www.linkedin.com/in/darshil-parmar/  
 
-!
+![Project architecture diagram](/project-architecture-diagram.png "Project architecture diagram)
 
 Instead of getting data from the Spotify API, the data will be from the Paris Olympics 2024 API: https://data.paris2024.org/api/explore/v2.1/console  
 (however, since there's been 10 days (!) with no access to the official API Data, and I needed to finish this project due to a job application deadline RapidAPI was used instead: https://rapidapi.com/belchiorarkad-FqvHs2EDOtP/api/olympic-sports-api)  
@@ -118,10 +118,11 @@ gave this result:
 
 Number one, this pointed out how rather lackluster the dataset is at the time of querying, and 2. there are evidently duplicates in the data. So the dataset is not something to brag about at all but hands-on experience on how to take data from an API all the way to Athena, fully automated, has been gained!  
 
-(I decided not to use QuickSight since I didn't have an interesting dataset and as to not start the free trial. I will most likely use it in a project in the future!)   
-
 ### Daily Automation with CloudWatch
 
 The pipeline can be fully automated with CloudWatch EventBridge to trigger daily by creating a rule with a name like 'olympic-data-pipeline-daily-trigger', setting the rule type to Schedule. Either the rate would be set to rate(1 day) or the Cron expression would be set to cron(0 0 * * ? *). A flexibel time window of say 15 minutes could be set as well. The target API would be AWS Lambda Invoke pointing to the OlympicsDataExtraction Lambda function.  
 
-We were not able to extract high quality data from the official API and not able to do any interesting visualizations in Amazon QuickSight but this project has given valuable hands-on experience and insight with a lot of AWS Services for Data Engineering nevertheless! 
+## End-of-project Reflections and Improvements
+I decided not to use QuickSight since I didn't have an interesting dataset and as to not start the free trial. I will most likely use it in a project in the future!
+
+We were not able to extract high quality data from the official API and not able to do any interesting visualizations in Amazon QuickSight but this project has given valuable hands-on experience and insight with a lot of AWS Services for Data Engineering nevertheless! And quality Olympics data can be provided from the Official API if one is willing to wait more than 10 days haha :')
