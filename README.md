@@ -5,8 +5,9 @@ This is a Data Engineering project that models the Spotify API project mentioned
 
 ![Project architecture diagram](/project-architecture-diagram.png "Project architecture diagram")
 
-Instead of getting data from the Spotify API, the data will be from the Paris Olympics 2024 API: https://data.paris2024.org/api/explore/v2.1/console  
+Instead of getting data from the Spotify API like in the video, the data will be from the Paris Olympics 2024 API: https://data.paris2024.org/api/explore/v2.1/console  
 (however, since there's been 10 days (!) with no access to the official API Data, and I needed to finish this project due to a job application deadline RapidAPI was used instead: https://rapidapi.com/belchiorarkad-FqvHs2EDOtP/api/olympic-sports-api)  
+
 The AWS Services that will be used are S3, Lambda, AWS Glue, DynamoDB and Athena. The AWS Data Wrangler library will be used over pandas for the data transformation since we're working with AWS services. The pipeline can be fully automated to trigger daily with Amazon CloudWatch EventBridge and the provisioning of the resources can be automated with Terraform (not implemented in this first version of the project)  
 
 ## Journal
