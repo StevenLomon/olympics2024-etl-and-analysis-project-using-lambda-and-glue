@@ -3,7 +3,7 @@
 ## Description
 This is a Data Engineering project that models the Spotify API project mentioned in this video: https://www.youtube.com/watch?v=X8Fin2zMKK4 by Darshil Parmar: https://www.linkedin.com/in/darshil-parmar/  
 
-![Project architecture diagram](/project-architecture-diagram.png "Project architecture diagram)
+![Project architecture diagram](/project-architecture-diagram.png "Project architecture diagram")
 
 Instead of getting data from the Spotify API, the data will be from the Paris Olympics 2024 API: https://data.paris2024.org/api/explore/v2.1/console  
 (however, since there's been 10 days (!) with no access to the official API Data, and I needed to finish this project due to a job application deadline RapidAPI was used instead: https://rapidapi.com/belchiorarkad-FqvHs2EDOtP/api/olympic-sports-api)  
