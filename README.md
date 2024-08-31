@@ -14,6 +14,7 @@ https://rapidapi.com/belchiorarkad-FqvHs2EDOtP/api/olympic-sports-api)
 * AWS Glue
 * DynamoDB
 * Amazon Athena
+
 The AWS Data Wrangler library will be used over pandas for the data transformation since we're working with AWS services. The pipeline can be fully automated to trigger daily with Amazon CloudWatch EventBridge and the provisioning of the resources can be automated with Terraform (not implemented in this first version of the project)  
 
 The project uses the following architecture:
