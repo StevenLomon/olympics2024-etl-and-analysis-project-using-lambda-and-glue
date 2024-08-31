@@ -2,7 +2,7 @@
 This is a Data Engineering project that models the Spotify API project mentioned in this video: https://www.youtube.com/watch?v=X8Fin2zMKK4 by Darshil Parmar: https://www.linkedin.com/in/darshil-parmar/  
 
 ## Description
-Educational project that focuses on AWS services for Data Engineering. A full ETL pipeline that takes Olympics data end-to-end from the RapidAPI to SQL queries on top of an S3 bucket using Athena
+Educational end-to-end project that focuses on AWS services for Data Engineering. A full ETL pipeline that ingests Olympics data from RapidAPI, transforms the data with AWS Glue and enables SQL queries using Athena on top of the transformed data S3 bucket.  
 
 Instead of getting data from the Spotify API like in the video, the data will be from the Paris Olympics 2024 API: https://data.paris2024.org/api/explore/v2.1/console  
 (however, since there's been 10 days (!) with no access to the official API Data, and I needed to finish this project due to a job application deadline RapidAPI was used instead:  
